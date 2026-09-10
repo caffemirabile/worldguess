@@ -1,0 +1,152 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Score = nat;
+type RoundView = 
+ record {
+   guesses: vec Guess;
+   place: PlaceId;
+ };
+type RoomView = 
+ record {
+   code: RoomCode;
+   currentRound: nat;
+   host: principal;
+   players: vec principal;
+   roundScores: vec RoundView;
+   status: RoomStatus;
+   totalRounds: nat;
+ };
+type RoomStatus = 
+ variant {
+   finished;
+   inProgress;
+   waiting;
+ };
+type RoomCode = text;
+type Result__1 = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result_2 = 
+ variant {
+   err: GameError;
+   ok: Place;
+ };
+type Result_1 = 
+ variant {
+   err: GameError;
+   ok: PlayerProfile;
+ };
+type Result = 
+ variant {
+   err: GameError;
+   ok: RoomView;
+ };
+type PlayerProfile = 
+ record {
+   bestScore: Score;
+   displayName: text;
+   gamesPlayed: nat;
+   "principal": principal;
+   totalScore: Score;
+ };
+type PlaceId = nat;
+type Place = 
+ record {
+   aliases: vec text;
+   id: PlaceId;
+   lat: float64;
+   lng: float64;
+   name: text;
+ };
+type LeaderboardEntry = 
+ record {
+   displayName: text;
+   "principal": principal;
+   totalScore: Score;
+ };
+type Guess = 
+ record {
+   player: principal;
+   score: Score;
+   "text": text;
+ };
+type GameError = 
+ variant {
+   alreadyInRoom;
+   gameAlreadyStarted;
+   gameNotStarted;
+   invalidGuess;
+   notHost;
+   notInRoom;
+   notSignedIn;
+   roomFull;
+   roomNotFound: RoomCode;
+   roundNotActive;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result_3);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createRoom: (totalRounds: nat) -> (Result);
+  execute: (qJson: text) -> (Result__1) query;
+  getApiDoc: () -> (text) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getCurrentRoundPlace: (code: RoomCode) -> (Result_2) query;
+  getLeaderboard: () -> (vec LeaderboardEntry) query;
+  getProfile: () -> (Result_1) query;
+  getRoomState: (code: RoomCode) -> (Result) query;
+  isCallerAdmin: () -> (bool) query;
+  joinRoom: (code: RoomCode) -> (Result);
+  schema: () -> (text) query;
+  setDisplayName: (name: text) -> (Result_1);
+  startGame: (code: RoomCode) -> (Result);
+  submitGuess: (code: RoomCode, guess: text) -> (Result);
+}

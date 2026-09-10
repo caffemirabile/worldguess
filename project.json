@@ -1,0 +1,17 @@
+{
+  "overview": "A multiplayer geography guessing game where players log in, see a randomly selected place on a map, and type its name to score points against others.",
+  "features": [
+    "Sign in with Internet Identity to play",
+    "Guess randomly selected world places by typing their names",
+    "Create or join multiplayer rooms with a room code",
+    "Track scores on a global leaderboard and player profile"
+  ],
+  "category": "game",
+  "tags": [
+    "game",
+    "geography",
+    "multiplayer",
+    "map"
+  ],
+  "last_updated": "2026-09-09T13:06:05.965Z"
+}

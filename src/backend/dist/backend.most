@@ -1,0 +1,132 @@
+// Version: 4.0.0
+type AccessControlState__258044329 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__386906547<Principal, UserRole__785948418>
+  };
+type AccessControlState__838508867 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__386906547<Principal, UserRole__253987742>
+  };
+type Data__265875254<K, V> = {var count : Nat__58649523; kvs : [var ?(K, V)]};
+type Guess__265369852 =
+  {player : Principal; score : Score__965554738; text : Text};
+type Guess__579589388 =
+  {player : Principal; score : Score__938641262; text : Text};
+type Internal__161573640<K, V> =
+  {children : [var ?Node__430031793<K, V>]; data : Data__265875254<K, V>};
+type Leaf__1045638083<K, V> = {data : Data__265875254<K, V>};
+type Map__13625999<K, V> =
+  {var root : Node__430031793<K, V>; var size : Nat__58649523};
+type Map__386906547<K, V> = Map__670138087<K, V>;
+type Map__670138087<K, V> = Map__13625999<K, V>;
+type Nat__58649523 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__168829506 =
+  {accessControlState : AccessControlState__838508867};
+type NewActor__50454331 =
+  {
+    accessControlState : AccessControlState__258044329;
+    places : Map__386906547<PlaceId__403407696, Place__173643629>;
+    profiles : Map__386906547<Principal, PlayerProfile__380587495>;
+    rooms : Map__386906547<RoomCode__404624020, Room__799848907>
+  };
+type Node__430031793<K, V> =
+  {#internal : Internal__161573640<K, V>; #leaf : Leaf__1045638083<K, V>};
+type OldActor__84015737 = {};
+type OldActor__931712378 =
+  {accessControlState : AccessControlState__258044329};
+type PlaceId__403407696 = Nat;
+type PlaceId__90321417 = Nat;
+type Place__1011941915 =
+  {
+    aliases : [Text];
+    id : PlaceId__90321417;
+    lat : Float;
+    lng : Float;
+    name : Text
+  };
+type Place__173643629 =
+  {
+    aliases : [Text];
+    id : PlaceId__403407696;
+    lat : Float;
+    lng : Float;
+    name : Text
+  };
+type PlayerProfile__380587495 =
+  {
+    bestScore : Score__965554738;
+    displayName : Text;
+    gamesPlayed : Nat;
+    principal : Principal;
+    totalScore : Score__965554738
+  };
+type PlayerProfile__861850882 =
+  {
+    bestScore : Score__938641262;
+    displayName : Text;
+    gamesPlayed : Nat;
+    principal : Principal;
+    totalScore : Score__938641262
+  };
+type RoomCode__1024180881 = Text;
+type RoomCode__404624020 = Text;
+type RoomStatus__973942981 = {#finished; #inProgress; #waiting};
+type RoomStatus__996474331 = {#finished; #inProgress; #waiting};
+type Room__615626414 =
+  {
+    code : RoomCode__1024180881;
+    currentRound : Nat;
+    host : Principal;
+    players : [Principal];
+    rounds : [Round__1042684524];
+    status : RoomStatus__996474331;
+    totalRounds : Nat
+  };
+type Room__799848907 =
+  {
+    code : RoomCode__404624020;
+    currentRound : Nat;
+    host : Principal;
+    players : [Principal];
+    rounds : [Round__350918724];
+    status : RoomStatus__973942981;
+    totalRounds : Nat
+  };
+type Round__1042684524 =
+  {guesses : [Guess__579589388]; place : PlaceId__90321417};
+type Round__350918724 =
+  {guesses : [Guess__265369852]; place : PlaceId__403407696};
+type Score__938641262 = Nat;
+type Score__965554738 = Nat;
+type UserRole__253987742 = {#admin; #guest; #user};
+type UserRole__785948418 = {#admin; #guest; #user};
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "20260810_103500" : (old : OldActor__84015737) -> NewActor__168829506;
+  "20260909_000000" : (old : OldActor__931712378) -> NewActor__50454331
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__386906547<Principal, UserRole__91647283>
+    };
+  stable places :
+    {
+      var root : Node__430031793<PlaceId__90321417, Place__1011941915>;
+      var size : Nat__58649523
+    };
+  stable profiles :
+    {
+      var root : Node__430031793<Principal, PlayerProfile__861850882>;
+      var size : Nat__58649523
+    };
+  stable rooms :
+    {
+      var root : Node__430031793<RoomCode__1024180881, Room__615626414>;
+      var size : Nat__58649523
+    }
+};
